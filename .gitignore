@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+instance/
+data/rollcall.db
+data/models/*.yml
+data/models/*.json
+data/students/*/
+!data/students/.gitkeep
+!data/models/.gitkeep
+.DS_Store
