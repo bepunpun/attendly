@@ -21,9 +21,17 @@ def train_model():
 
     for label_id, student_dir in enumerate(student_dirs):
         student_id = student_dir.name
+        sample_paths = list(student_dir.glob("*.jpg"))
+
+        if len(sample_paths) < 5:
+            # Too few samples make LBPH badly overfit to lighting/pose noise
+            # for this one student — skip rather than poison the model.
+            print(f"Skipping {student_id}: only {len(sample_paths)} samples captured")
+            continue
+
         label_map[label_id] = student_id
 
-        for image_path in student_dir.glob("*.jpg"):
+        for image_path in sample_paths:
             img = cv2.imread(str(image_path), cv2.IMREAD_GRAYSCALE)
             if img is None:
                 continue
