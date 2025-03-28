@@ -24,6 +24,7 @@ def recognize_frame(frame):
     """Detect + identify every face in a BGR frame.
 
     Returns a list of dicts: {box, student_id, name, confidence, matched}.
+    As a side effect, marks attendance (once per day) for confident matches.
     """
     recognizer, label_map = _load()
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -36,6 +37,9 @@ def recognize_frame(frame):
         matched = confidence <= config.RECOGNITION_CONFIDENCE_THRESHOLD
         student_id = label_map.get(label_id) if matched else None
         student = database.get_student(student_id) if student_id else None
+
+        if matched and student_id:
+            database.mark_attendance(student_id)
 
         results.append(
             {
