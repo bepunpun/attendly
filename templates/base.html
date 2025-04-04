@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}RollCall{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gruvbox.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="logo">RC</div>
+            <nav>
+                <a class="nav-item {{ 'active' if active == 'home' else '' }}" href="{{ url_for('dashboard') }}">
+                    <span class="icon">⌂</span> Home
+                </a>
+                <a class="nav-item {{ 'active' if active == 'students' else '' }}" href="{{ url_for('students') }}">
+                    <span class="icon">▦</span> Students
+                </a>
+                <a class="nav-item {{ 'active' if active == 'register' else '' }}" href="{{ url_for('register') }}">
+                    <span class="icon">＋</span> Register
+                </a>
+                <a class="nav-item {{ 'active' if active == 'attendance' else '' }}" href="{{ url_for('attendance') }}">
+                    <span class="icon">✓</span> Attendance
+                </a>
+                <a class="nav-item {{ 'active' if active == 'reports' else '' }}" href="{{ url_for('reports') }}">
+                    <span class="icon">▤</span> Reports
+                </a>
+                <a class="nav-item {{ 'active' if active == 'settings' else '' }}" href="{{ url_for('settings') }}">
+                    <span class="icon">⚙</span> Settings
+                </a>
+            </nav>
+            <a class="nav-item" href="#">
+                <span class="icon">?</span> Support
+            </a>
+            <a class="nav-item" href="#">
+                <span class="icon">⏻</span> Logout
+            </a>
+        </aside>
+
+        <div>
+            <header class="topbar">
+                <div class="search-pill">
+                    <span>⌕</span>
+                    <input type="text" id="global-search" placeholder="Search students by name or ID" />
+                </div>
+                <div class="topbar-user">
+                    <div class="avatar">A</div>
+                    <div>
+                        <div class="name">Admin</div>
+                        <div class="role">Course Instructor</div>
+                    </div>
+                </div>
+                <div class="bell">🔔</div>
+            </header>
+
+            <main class="main {{ 'no-panel' if not with_panel else '' }}">
+                <div class="content">
+                    {% block content %}{% endblock %}
+                </div>
+                {% if with_panel %}
+                <aside class="panel" id="detail-panel">
+                    {% block panel %}
+                    <p class="meta">Select a student to see details.</p>
+                    {% endblock %}
+                </aside>
+                {% endif %}
+            </main>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
