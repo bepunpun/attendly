@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · RollCall{% endblock %}
+
+{% block content %}
+<h1>Today's Overview</h1>
+
+<div class="tabs" id="status-tabs">
+    <div class="tab active" data-filter="all">Everyone ({{ summary.total }})</div>
+    <div class="tab" data-filter="present">Present ({{ summary.present }})</div>
+    <div class="tab" data-filter="absent">Absent ({{ summary.absent }})</div>
+    <div class="tab" data-filter="late">Late ({{ summary.late }})</div>
+</div>
+
+<div class="section-heading">
+    <h2>Roster</h2>
+    <a class="more" href="{{ url_for('attendance') }}">full history →</a>
+</div>
+
+<div class="card-grid" id="roster-grid">
+    {% for s in roster %}
+    <div class="card" data-status="{{ s.status }}" data-id="{{ s.student_id }}">
+        <div class="thumb">{{ s.name[0] }}</div>
+        <p class="title">{{ s.name }}</p>
+        <p class="subtitle">{{ s.student_id }}</p>
+        <span class="badge {{ s.status }}">{{ s.status }}</span>
+    </div>
+    {% else %}
+    <p class="subtitle">No students registered yet — head to Register to add one.</p>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block panel %}
+<p class="meta">Select a student from the roster to see details here.</p>
+{% endblock %}

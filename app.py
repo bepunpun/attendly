@@ -13,7 +13,31 @@ def _ensure_db():
 
 @app.route("/")
 def dashboard():
-    return render_template("dashboard.html")
+    all_students = database.get_students()
+    today_attendance = {row["student_id"]: row for row in database.get_attendance()}
+
+    roster = []
+    for student in all_students:
+        record = today_attendance.get(student["student_id"])
+        roster.append(
+            {
+                "student_id": student["student_id"],
+                "name": student["name"],
+                "program": student["program"],
+                "status": record["status"] if record else "absent",
+            }
+        )
+
+    summary = {
+        "total": len(roster),
+        "present": sum(1 for s in roster if s["status"] == "present"),
+        "absent": sum(1 for s in roster if s["status"] == "absent"),
+        "late": sum(1 for s in roster if s["status"] == "late"),
+    }
+
+    return render_template(
+        "dashboard.html", active="home", with_panel=True, roster=roster, summary=summary
+    )
 
 
 @app.route("/students")
