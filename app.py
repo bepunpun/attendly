@@ -42,7 +42,8 @@ def dashboard():
 
 @app.route("/students")
 def students():
-    return render_template("students.html")
+    all_students = database.get_students()
+    return render_template("students.html", active="students", all_students=all_students)
 
 
 @app.route("/register")

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Students · RollCall{% endblock %}
+
+{% block content %}
+<h1>Registered Students</h1>
+
+<div class="section-heading">
+    <h2>All Students ({{ all_students|length }})</h2>
+    <a class="more" href="{{ url_for('register') }}">+ register new</a>
+</div>
+
+<div class="card-grid" id="student-grid">
+    {% for s in all_students %}
+    <div class="card" data-id="{{ s.student_id }}" data-name="{{ s.name|lower }}">
+        <div class="thumb">{{ s.name[0] }}</div>
+        <p class="title">{{ s.name }}</p>
+        <p class="subtitle">{{ s.program or "—" }}</p>
+    </div>
+    {% else %}
+    <p class="subtitle">Nobody registered yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}
