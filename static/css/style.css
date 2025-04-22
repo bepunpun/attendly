@@ -313,6 +313,18 @@ a {
     margin-bottom: 18px;
 }
 
+.form-input {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    margin: 6px 0 14px;
+    border: 1px solid var(--bg2);
+    border-radius: var(--radius-sm);
+    background: var(--bg0-h);
+    font-size: 13px;
+    color: var(--fg0);
+}
+
 .btn {
     display: inline-flex;
     align-items: center;

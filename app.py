@@ -1,9 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask, flash, redirect, render_template, request, url_for
 
 import config
 from core import database
 
 app = Flask(__name__)
+app.secret_key = "dev"  # fine for a local single-user course project
 
 
 @app.before_request
@@ -46,9 +47,28 @@ def students():
     return render_template("students.html", active="students", all_students=all_students)
 
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
-    return render_template("register.html")
+    if request.method == "POST":
+        from core.capture import capture_face_samples
+        from core.trainer import train_model
+
+        student_id = request.form["student_id"].strip()
+        name = request.form["name"].strip()
+        program = request.form.get("program", "").strip()
+
+        saved = capture_face_samples(student_id, name, program)
+        if saved < 5:
+            flash(f"Only captured {saved} samples — try again with better lighting.")
+            return redirect(url_for("register"))
+
+        train_model()
+        flash(f"{name} registered and model retrained ({saved} samples).")
+        return redirect(url_for("students"))
+
+    return render_template(
+        "register.html", active="register", samples_per_student=config.SAMPLES_PER_STUDENT
+    )
 
 
 @app.route("/attendance")
