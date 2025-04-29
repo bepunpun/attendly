@@ -76,6 +76,32 @@ def mark_attendance(student_id: str, status: str = "present"):
         return True
 
 
+def get_student_stats(student_id: str):
+    with get_conn() as conn:
+        row = conn.execute(
+            """
+            SELECT COUNT(*) AS days_present, MAX(timestamp) AS last_seen
+            FROM attendance WHERE student_id = ?
+            """,
+            (student_id,),
+        ).fetchone()
+
+    student = get_student(student_id)
+    enrolled_days = 1
+    if student:
+        created = datetime.fromisoformat(student["created_at"])
+        enrolled_days = max((datetime.now() - created).days, 1)
+
+    days_present = row["days_present"] or 0
+    rate = round(100 * days_present / enrolled_days) if enrolled_days else 0
+
+    return {
+        "days_present": days_present,
+        "last_seen": row["last_seen"],
+        "attendance_rate": min(rate, 100),
+    }
+
+
 def get_attendance(day: str | None = None):
     day = day or date.today().isoformat()
     with get_conn() as conn:

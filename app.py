@@ -1,4 +1,4 @@
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, flash, jsonify, redirect, render_template, request, url_for
 
 import config
 from core import database
@@ -79,6 +79,25 @@ def attendance():
 @app.route("/reports")
 def reports():
     return render_template("reports.html")
+
+
+@app.route("/api/students/<student_id>")
+def api_student_detail(student_id):
+    student = database.get_student(student_id)
+    if not student:
+        return jsonify({"error": "not found"}), 404
+
+    stats = database.get_student_stats(student_id)
+    return jsonify(
+        {
+            "student_id": student["student_id"],
+            "name": student["name"],
+            "program": student["program"],
+            "enrolled": student["created_at"][:10],
+            "last_seen": stats["last_seen"],
+            "attendance_rate": stats["attendance_rate"],
+        }
+    )
 
 
 @app.route("/settings")

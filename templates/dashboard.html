@@ -31,5 +31,9 @@
 {% endblock %}
 
 {% block panel %}
-<p class="meta">Select a student from the roster to see details here.</p>
+<p class="meta" id="panel-placeholder">Select a student from the roster to see details here.</p>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/detail-panel.js') }}"></script>
 {% endblock %}
