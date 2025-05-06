@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Attendance · RollCall{% endblock %}
+
+{% block content %}
+<h1>Attendance History</h1>
+
+<div class="tabs">
+    {% for value, label in [("all", "All"), ("present", "Present"), ("absent", "Absent"), ("late", "Late")] %}
+    <a class="tab {{ 'active' if status_filter == value else '' }}"
+       href="{{ url_for('attendance', status=value) }}">{{ label }}</a>
+    {% endfor %}
+</div>
+
+<div class="card-grid" style="grid-template-columns: 1fr;">
+    {% for r in records %}
+    <div class="card" style="cursor: default; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+            <p class="title">{{ r.name }}</p>
+            <p class="subtitle">{{ r.student_id }} · {{ r.timestamp }}</p>
+        </div>
+        <span class="badge {{ r.status }}">{{ r.status }}</span>
+    </div>
+    {% else %}
+    <p class="subtitle">No attendance recorded yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -115,3 +115,17 @@ def get_attendance(day: str | None = None):
             """,
             (f"{day}%",),
         ).fetchall()
+
+
+def get_attendance_history(limit: int = 200):
+    with get_conn() as conn:
+        return conn.execute(
+            """
+            SELECT attendance.*, students.name, students.program
+            FROM attendance
+            JOIN students ON students.student_id = attendance.student_id
+            ORDER BY attendance.timestamp DESC
+            LIMIT ?
+            """,
+            (limit,),
+        ).fetchall()

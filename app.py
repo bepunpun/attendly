@@ -73,7 +73,14 @@ def register():
 
 @app.route("/attendance")
 def attendance():
-    return render_template("attendance.html")
+    status_filter = request.args.get("status", "all")
+    records = database.get_attendance_history()
+    if status_filter != "all":
+        records = [r for r in records if r["status"] == status_filter]
+
+    return render_template(
+        "attendance.html", active="attendance", records=records, status_filter=status_filter
+    )
 
 
 @app.route("/reports")
