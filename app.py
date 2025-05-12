@@ -1,4 +1,7 @@
-from flask import Flask, flash, jsonify, redirect, render_template, request, url_for
+import csv
+import io
+
+from flask import Flask, Response, flash, jsonify, redirect, render_template, request, url_for
 
 import config
 from core import database
@@ -86,6 +89,23 @@ def attendance():
 @app.route("/reports")
 def reports():
     return render_template("reports.html")
+
+
+@app.route("/attendance/export.csv")
+def export_attendance_csv():
+    records = database.get_attendance_history(limit=5000)
+
+    buffer = io.StringIO()
+    writer = csv.writer(buffer)
+    writer.writerow(["student_id", "name", "program", "timestamp", "status"])
+    for r in records:
+        writer.writerow([r["student_id"], r["name"], r["program"], r["timestamp"], r["status"]])
+
+    return Response(
+        buffer.getvalue(),
+        mimetype="text/csv",
+        headers={"Content-Disposition": "attachment; filename=attendance.csv"},
+    )
 
 
 @app.route("/api/students/<student_id>")
