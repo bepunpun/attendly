@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Reports · RollCall{% endblock %}
+
+{% block content %}
+<h1>Reports</h1>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="card" style="margin-bottom: 20px;">
+    {% for m in messages %}<p class="subtitle">{{ m }}</p>{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<div class="card" style="max-width: 420px; cursor: default;">
+    <p class="subtitle">Email the full attendance history as a CSV attachment.</p>
+    <form method="post">
+        <label class="subtitle">Send to</label>
+        <input class="form-input" type="email" name="email" value="{{ default_to }}" required />
+        <button class="btn btn-primary" type="submit">Send Report</button>
+    </form>
+    <a class="btn btn-secondary" href="{{ url_for('export_attendance_csv') }}"
+       style="display:block; text-align:center; text-decoration:none;">
+        ⤓ Download CSV instead
+    </a>
+</div>
+{% endblock %}

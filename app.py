@@ -86,23 +86,38 @@ def attendance():
     )
 
 
-@app.route("/reports")
+@app.route("/reports", methods=["GET", "POST"])
 def reports():
-    return render_template("reports.html")
+    if request.method == "POST":
+        from core.mailer import send_report
+
+        to_addr = request.form["email"].strip()
+        try:
+            send_report(to_addr, build_attendance_csv().encode("utf-8"))
+            flash(f"Report emailed to {to_addr}.")
+        except Exception as exc:
+            flash(f"Couldn't send report: {exc}")
+        return redirect(url_for("reports"))
+
+    return render_template(
+        "reports.html", active="reports", default_to=config.REPORT_EMAIL_TO
+    )
 
 
-@app.route("/attendance/export.csv")
-def export_attendance_csv():
+def build_attendance_csv() -> str:
     records = database.get_attendance_history(limit=5000)
-
     buffer = io.StringIO()
     writer = csv.writer(buffer)
     writer.writerow(["student_id", "name", "program", "timestamp", "status"])
     for r in records:
         writer.writerow([r["student_id"], r["name"], r["program"], r["timestamp"], r["status"]])
+    return buffer.getvalue()
 
+
+@app.route("/attendance/export.csv")
+def export_attendance_csv():
     return Response(
-        buffer.getvalue(),
+        build_attendance_csv(),
         mimetype="text/csv",
         headers={"Content-Disposition": "attachment; filename=attendance.csv"},
     )
