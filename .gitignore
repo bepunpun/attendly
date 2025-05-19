@@ -5,6 +5,7 @@ venv/
 .env
 instance/
 data/rollcall.db
+data/settings.json
 data/models/*.yml
 data/models/*.json
 data/students/*/

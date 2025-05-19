@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Settings · RollCall{% endblock %}
+
+{% block content %}
+<h1>Settings</h1>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="card" style="margin-bottom: 20px;">
+    {% for m in messages %}<p class="subtitle">{{ m }}</p>{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<div class="card" style="max-width: 420px; cursor: default;">
+    <form method="post">
+        <label class="subtitle">Camera index</label>
+        <input class="form-input" type="number" name="camera_index" value="{{ values.camera_index }}" />
+
+        <label class="subtitle">Recognition confidence threshold</label>
+        <input class="form-input" type="number" name="confidence_threshold"
+               value="{{ values.confidence_threshold }}" />
+        <p class="subtitle" style="margin-top: -8px;">
+            Lower LBPH distance = stricter match. 60–70 works well in a normal classroom.
+        </p>
+
+        <label class="subtitle">Default report email</label>
+        <input class="form-input" type="email" name="report_email" value="{{ values.report_email }}" />
+
+        <button class="btn btn-primary" type="submit">Save Settings</button>
+    </form>
+</div>
+{% endblock %}

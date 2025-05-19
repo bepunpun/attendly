@@ -142,9 +142,22 @@ def api_student_detail(student_id):
     )
 
 
-@app.route("/settings")
+@app.route("/settings", methods=["GET", "POST"])
 def settings():
-    return render_template("settings.html")
+    from core import settings_store
+
+    if request.method == "POST":
+        settings_store.save(
+            {
+                "camera_index": int(request.form["camera_index"]),
+                "confidence_threshold": int(request.form["confidence_threshold"]),
+                "report_email": request.form.get("report_email", "").strip(),
+            }
+        )
+        flash("Settings saved.")
+        return redirect(url_for("settings"))
+
+    return render_template("settings.html", active="settings", values=settings_store.load())
 
 
 if __name__ == "__main__":
