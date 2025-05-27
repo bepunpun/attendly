@@ -20,6 +20,23 @@ function initStatusTabs() {
     });
 }
 
+function initGlobalSearch() {
+    const input = document.getElementById("global-search");
+    const grid = document.getElementById("roster-grid") || document.getElementById("student-grid");
+    if (!input || !grid) return;
+
+    input.addEventListener("input", () => {
+        const query = input.value.trim().toLowerCase();
+        grid.querySelectorAll(".card").forEach((card) => {
+            const name = (card.dataset.name || card.querySelector(".title")?.textContent || "").toLowerCase();
+            const id = (card.dataset.id || "").toLowerCase();
+            const match = !query || name.includes(query) || id.includes(query);
+            card.style.display = match ? "" : "none";
+        });
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     initStatusTabs();
+    initGlobalSearch();
 });
