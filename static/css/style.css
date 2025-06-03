@@ -392,8 +392,36 @@ a {
     .sidebar {
         flex-direction: row;
         overflow-x: auto;
+        gap: 12px;
+        padding: 12px 16px;
+    }
+    .sidebar nav {
+        flex-direction: row;
+        gap: 12px;
+    }
+    .topbar {
+        flex-wrap: wrap;
+        padding: 16px 16px 0;
+    }
+    .search-pill {
+        max-width: none;
+        order: 2;
+        width: 100%;
     }
     .main {
         grid-template-columns: 1fr;
+        padding: 16px;
+    }
+    .panel {
+        position: static;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .topbar-user .role {
+        display: none;
     }
 }
