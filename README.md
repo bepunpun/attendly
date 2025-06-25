@@ -41,13 +41,13 @@ readable Python you can actually audit.
 <tr>
 <td width="50%">
 
-**Dashboard** — today's roster at a glance
+**Dashboard**
 ![Dashboard](docs/screenshots/dashboard.png)
 
 </td>
 <td width="50%">
 
-**Students** — everyone you've registered
+**Students**
 ![Students](docs/screenshots/students.png)
 
 </td>
@@ -55,13 +55,13 @@ readable Python you can actually audit.
 <tr>
 <td width="50%">
 
-**Register** — add a new student in seconds
+**Register**
 ![Register](docs/screenshots/register.png)
 
 </td>
 <td width="50%">
 
-**Attendance history** — filterable, exportable
+**Attendance history**
 ![Attendance](docs/screenshots/attendance.png)
 
 </td>
@@ -69,13 +69,13 @@ readable Python you can actually audit.
 <tr>
 <td width="50%">
 
-**Reports** — one click to email the day's numbers
+**Reports**
 ![Reports](docs/screenshots/reports.png)
 
 </td>
 <td width="50%">
 
-**Settings** — tune the camera and recognition threshold
+**Settings**
 ![Settings](docs/screenshots/settings.png)
 
 </td>
