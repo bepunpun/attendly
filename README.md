@@ -1,12 +1,12 @@
 <div align="center">
 
-# RollCall
+# Attendly
 
 **Attendance that takes itself.**
 
-Point a webcam at the door. RollCall recognizes every face that walks
-through it, logs the timestamp, and keeps the roster up to date —
-no sign-in sheets, no spreadsheets, no "did you actually show up" arguments.
+Point a webcam at the door. Attendly recognizes every face that walks
+through it, logs the timestamp, and keeps the roster up to date.
+No sign-in sheets, no spreadsheets, no "did you actually show up" arguments.
 
 [![Python](https://skillicons.dev/icons?i=python)](https://www.python.org/)
 [![Flask](https://skillicons.dev/icons?i=flask)](https://flask.palletsprojects.com/)
@@ -19,19 +19,19 @@ no sign-in sheets, no spreadsheets, no "did you actually show up" arguments.
 
 </div>
 
-## Why RollCall
+## Why Attendly
 
 Manual attendance wastes the first five minutes of every class and is
-trivially easy to fake for a friend. RollCall replaces it with a face
-recognition pipeline you fully own — your data never leaves your machine,
+trivially easy to fake for a friend. Attendly replaces it with a face
+recognition pipeline you fully own: your data never leaves your machine,
 there's no per-seat SaaS fee, and the whole thing is ~1,000 lines of
 readable Python you can actually audit.
 
-- **Set up once.** Register a student in under a minute — RollCall captures
+- **Set up once.** Register a student in under a minute; Attendly captures
   30 face samples and retrains the recognizer automatically.
 - **Own your data.** SQLite on disk. No cloud account, no vendor lock-in.
 - **See the whole picture.** A live dashboard shows who's present, who's
-  late, and who's missing — click anyone for their full attendance history.
+  late, and who's missing, with a click through to full attendance history.
 - **Reports without the busywork.** Export CSV or have the day's report
   emailed to you automatically.
 
@@ -90,15 +90,15 @@ readable Python you can actually audit.
 |---|---|---|
 | Detection & recognition | OpenCV Haar cascade + LBPH | Fast, dependency-light, runs on a laptop CPU |
 | Backend | Flask + SQLite | No ORM ceremony, one file database, zero infra |
-| Frontend | Jinja templates + vanilla JS | No build step — clone and run |
+| Frontend | Jinja templates + vanilla JS | No build step, clone and run |
 | Styling | Hand-rolled Gruvbox palette | Warm, high-contrast, easy on the eyes for a screen you'll stare at all day |
 | Reports | CSV export + SMTP | Get numbers out without opening the database |
 
 ## Install it
 
 ```bash
-git clone https://github.com/bepunpun/rollcall.git
-cd rollcall
+git clone https://github.com/bepunpun/attendly.git
+cd attendly
 
 python -m venv .venv
 source .venv/bin/activate          # .venv\Scripts\activate on Windows
@@ -107,21 +107,21 @@ pip install -r requirements.txt
 # optional: populate the dashboard with fake students/attendance
 python scripts/seed_demo_data.py
 
-python app.py                      # → http://127.0.0.1:5000
+python app.py                      # then open http://127.0.0.1:5000
 ```
 
-That's it — no database server, no API keys, no build tooling.
+That's it: no database server, no API keys, no build tooling.
 
 To register a real student: open **Register**, enter their ID and name,
-and look at the webcam when you submit. RollCall captures face samples,
+and look at the webcam when you submit. Attendly captures face samples,
 retrains the model, and the student shows up on the dashboard immediately.
 
 ### Email reports (optional)
 
 ```bash
-export ROLLCALL_SMTP_USER=you@gmail.com
-export ROLLCALL_SMTP_PASSWORD=your-app-password
-export ROLLCALL_REPORT_EMAIL=default-recipient@example.com
+export ATTENDLY_SMTP_USER=you@gmail.com
+export ATTENDLY_SMTP_PASSWORD=your-app-password
+export ATTENDLY_REPORT_EMAIL=default-recipient@example.com
 ```
 
 ## Project layout
@@ -145,4 +145,4 @@ templates/, static/     the gruvbox dashboard UI
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE).

@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}RollCall{% endblock %}</title>
+    <title>{% block title %}Attendly{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/gruvbox.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 <body>
     <div class="app">
         <aside class="sidebar">
-            <div class="logo">RC</div>
+            <div class="logo">AT</div>
             <nav>
                 <a class="nav-item {{ 'active' if active == 'home' else '' }}" href="{{ url_for('dashboard') }}">
                     <span class="icon">⌂</span> Home

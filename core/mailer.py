@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 import config
 
 
-def send_report(to_addr: str, csv_bytes: bytes, subject: str = "RollCall attendance report"):
+def send_report(to_addr: str, csv_bytes: bytes, subject: str = "Attendly attendance report"):
     if not (config.SMTP_USER and config.SMTP_PASSWORD):
         raise RuntimeError("SMTP credentials not configured (see .env)")
 
